@@ -9,6 +9,11 @@ import scrapy
 
 
 class DirectoryPage(scrapy.Item):
-    employee_name = scrapy.Field
-    employee_info = scrapy.Field
     employee_id = scrapy.Field
+
+class EmployeePage(scrapy.Item):
+    employee_name = scrapy.Field
+    phone = scrapy.Field
+    email = scrapy.Field
+    employee_title = scrapy.Field
+    hierarchy = scrapy.Field
