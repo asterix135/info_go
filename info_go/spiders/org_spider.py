@@ -1,5 +1,6 @@
 import scrapy
 from scrapy.http import Request
+import re
 
 class InfoGoOrgSpider(scrapy.Spider):
     name = "org"
@@ -20,13 +21,28 @@ class InfoGoOrgSpider(scrapy.Spider):
 
 
     def parse(self, response):
+        file_dest = open('file.txt', 'a')
 
         for sel in response.xpath('//td[@class="employeeInfo"]'):
             employee_id = response.xpath('//a[@class="employee"]/@href').extract()
             print "Employee id"
             print employee_id
-            return employee_id
+            for item in employee_id:
+                id_step0 = str(item)
+                print id_step0
+                id_step1 = re.search("browseEmployee\(\'(\n*)", id_step0)
+                id_step2 = id_step1.group(1)
+                print id_step2
 
+            id_step0 = str(employee_id[0])
+            print id_step0
+            id_step1 = re.search("browseEmployee\(\'(\n*)", employee_id[0])
+            id_number = id_step1.group(1)
+            print id_number
+            #file_dest.write('\n'.join(employee_id))
+            file_dest.write(id_number)
+            #return employee_id
+        file_dest.write('\n')
         # this part fails
         # for sel in response.path('//a[@class="employee"]'):
         #     employee_id = response.xpath('@href').extract
