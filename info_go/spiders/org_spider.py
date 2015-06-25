@@ -18,7 +18,7 @@ class InfoGoOrgSpider(scrapy.Spider):
     def parse(self, response):
         file_dest = open('employee_numbers.txt', 'a')
 
-        for sel in response.xpath('//td[@class="employeeInfo"]'):
+        for sel in response.xpath('//td[@class="content"]'):
             employee_id = response.xpath('//a[@class="employee"]/@href').extract()
             print "Employee id"
             print employee_id
@@ -27,5 +27,5 @@ class InfoGoOrgSpider(scrapy.Spider):
                 print id_number
                 file_dest.write(id_number + '\n')
         file_dest.close()
-        
+
 
