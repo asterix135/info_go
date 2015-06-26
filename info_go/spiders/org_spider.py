@@ -7,7 +7,7 @@ class InfoGoOrgSpider(scrapy.Spider):
     name = "org"
     allowed_domains = ["infogo.gov.on.ca"]
     min_num = 2 # should be 2
-    max_num = 3 # should be 7356
+    max_num = 7356 # should be 7356
 
     def start_requests(self):
         for page in range(self.min_num, self.max_num + 1):
