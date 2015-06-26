@@ -21,11 +21,11 @@ class InfoGoOrgSpider(scrapy.Spider):
         #for sel in response.xpath('//td[@class="content"]'):
         for sel in response.xpath('//body'):
             employee_id = response.xpath('//a[@class="employee"]/@href').extract()
-            print "Employee id"
-            print employee_id
+            # print "Employee id"
+            # print employee_id
             for item in employee_id:
                 id_number = re.match("(.*)Employee\(\'(\d+)(.*)", str(item)).group(2)
-                file_dest.write(id_number + '\n')
+                file_dest.write(id_number.encode('utf-8') + '\n')
         file_dest.close()
 
 
