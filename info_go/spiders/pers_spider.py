@@ -14,7 +14,9 @@ class InfoGoPersSpider(scrapy.Spider):
     else:
         employee_set = set(['23895'])
 
-    # employee_set = set(['27293'])
+    # test set
+
+    # employee_set = set(['23895'])
 
     def start_requests(self):
         for page in self.employee_set:
@@ -31,9 +33,17 @@ class InfoGoPersSpider(scrapy.Spider):
             hierarchy_extract = response.xpath('//td[@class="content"]//ul/a[@href]').extract()
 
             #testing stuff
+
+            # print '\n'
+            # print email_extract
+            # print len(email_extract)
+            # print '\n'
+
             # for cnt in range(len(employee_details)):
             #     print cnt
             #     print employee_details[cnt] + '\n'
+
+            # end of testing stuff
 
             name_backward = re.match('(.*)b\>(.*)\</b(.*)', employee_details[0]).group(2)
             name_tokens = [token.strip() for token in name_backward.split(',')]
@@ -41,17 +51,22 @@ class InfoGoPersSpider(scrapy.Spider):
 
             phone = re.match('(.*)\>(.*)\<(.*)', employee_details[2]).group(2)
 
-            title_test = re.match('(.*)\>(.*)\<(.*)', employee_details[8]).group(2)
+            title_ref_no = len(employee_details) - 6
+
+            title_test = re.match('(.*)\>(.*)\<(.*)', employee_details[title_ref_no]).group(2)
             title_test_tokens = [token.strip() for token in title_test.split()]
             if name_tokens[0] == title_test_tokens[-1]:
-                title = re.match('(.*)\>(.*)\<(.*)', employee_details[9]).group(2)
+                title = re.match('(.*)\>(.*)\<(.*)', employee_details[title_ref_no + 1]).group(2)
             else:
                 title = title_test
 
-            if re.search('@', email_extract[0]) != None:
+            if len(email_extract) == 0:
+                email = ''
+            elif re.search('@', email_extract[0]) != None:
                 email = re.match('(.*)mailto:(.*?)\"', email_extract[0]).group(2)
             else:
                 email = ''
+
             org_name = re.match('(.*)\>(.*)\<(.*)', org_name_extract[0]).group(2)
 
             hierarchy = org_name
