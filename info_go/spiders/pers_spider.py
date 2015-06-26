@@ -16,7 +16,7 @@ class InfoGoPersSpider(scrapy.Spider):
 
     # test set
 
-    # employee_set = set(['23895'])
+    # employee_set = set(['111637'])
 
     def start_requests(self):
         for page in self.employee_set:
@@ -53,9 +53,13 @@ class InfoGoPersSpider(scrapy.Spider):
 
             title_ref_no = len(employee_details) - 6
 
+
             title_test = re.match('(.*)\>(.*)\<(.*)', employee_details[title_ref_no]).group(2)
             title_test_tokens = [token.strip() for token in title_test.split()]
-            if name_tokens[0] == title_test_tokens[-1]:
+
+            if len(title_test_tokens) == 0:
+                title = re.match('(.*)\>(.*)\<(.*)', employee_details[title_ref_no + 1]).group(2)
+            elif name_tokens[0] == title_test_tokens[-1]:
                 title = re.match('(.*)\>(.*)\<(.*)', employee_details[title_ref_no + 1]).group(2)
             else:
                 title = title_test
