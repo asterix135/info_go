@@ -9,14 +9,14 @@ class InfoGoPersSpider(scrapy.Spider):
 
     #activate when testing done
 
-    # if os.path.exists('employee_numbers.txt'):
-    #     employee_set = set(line.strip() for line in open('employee_numbers.txt'))
-    # else:
-    #     employee_set = set(['23895'])
+    if os.path.exists('employee_numbers.txt'):
+        employee_set = set(line.strip() for line in open('employee_numbers.txt'))
+    else:
+        employee_set = set(['23895'])
 
     # test set
 
-    employee_set = set(['34047'])
+    # employee_set = set(['34047'])
 
     def start_requests(self):
         for page in self.employee_set:
@@ -56,10 +56,6 @@ class InfoGoPersSpider(scrapy.Spider):
 
             title_test = re.match('(.*)\>(.*)\<(.*)', employee_details[title_ref_no]).group(2)
             title_test_tokens = [token.strip() for token in title_test.split()]
-
-            print title_test
-            print title_test_tokens
-            print type(title_test_tokens[0])
 
             if len(title_test_tokens) == 0:
                 title = re.match('(.*)\>(.*)\<(.*)', employee_details[title_ref_no + 1]).group(2)
